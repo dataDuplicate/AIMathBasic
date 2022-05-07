@@ -1,4 +1,5 @@
 from urllib.request import *
+from urllib.error import *
 import re,json
 import time
 import os,sys
@@ -45,18 +46,25 @@ def getVideoURL(bvid:str):
     return name, __()
 
 
-def download_video(path,url):
+def download_video(path,url,depth=0):
     global header
+    if depth>5:
+        raise Exception("Too match errors!!!")
+    
     print(url)
     r = Request(url,headers=header)
-    d = urlopen(r).read()
-    with open(path,"wb") as f:
-        f.write(d)
-    
+    time.sleep(1)
+    try:
+        d = urlopen(r).read()
+        with open(path,"wb") as f:
+            f.write(d)
+    except Exception :
+        download_video(path,url,depth+1)
+        
 if __name__=="__main__":
     print(sys.argv)
     #t1,a=getHighVideoURL("BV1Nr4y1n751")
-    name,a=getVideoURL("BV1Nr4y1n751")
+    name,a=getHighVideoURL("BV1Hu411v7Jh")
     
     #name,a=(getVideoURL("BV1Nr4y1n751"))
     #name,a=(getVideoURL("BV1ii4y1m7KV"))
