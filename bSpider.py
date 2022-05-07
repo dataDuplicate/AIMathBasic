@@ -3,6 +3,7 @@ from urllib.error import *
 import re,json
 import time
 import os,sys
+import http.client
 
 header = {
     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1',
@@ -46,8 +47,11 @@ def getVideoURL(bvid:str):
     return name, __()
 
 
-def download_video(path,url):
+def download_video(path,url,depth=0):
     global header
+    if depth>5:
+        raise Exception("Too match errors!!!")
+    
     print(url)
     r = Request(url,headers=header)
     time.sleep(1)
@@ -55,13 +59,16 @@ def download_video(path,url):
         d = urlopen(r).read()
         with open(path,"wb") as f:
             f.write(d)
-    except HTTPError :
-        download_video(path,url)
+    except Exception :
+        download_video(path,url,depth+1)
+    except http.client.IncompleteRead :
+        download_video(path,url,depth+1)
     
+
 if __name__=="__main__":
     print(sys.argv)
     #t1,a=getHighVideoURL("BV1Nr4y1n751")
-    name,a=getVideoURL("BV1Nr4y1n751")
+    name,a=getHighVideoURL("BV1Hu411v7Jh")
     
     #name,a=(getVideoURL("BV1Nr4y1n751"))
     #name,a=(getVideoURL("BV1ii4y1m7KV"))
