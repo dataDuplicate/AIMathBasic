@@ -1,4 +1,5 @@
 from urllib.request import *
+from urllib.error import *
 import re,json
 import time
 import os,sys
@@ -49,9 +50,13 @@ def download_video(path,url):
     global header
     print(url)
     r = Request(url,headers=header)
-    d = urlopen(r).read()
-    with open(path,"wb") as f:
-        f.write(d)
+    time.sleep(1)
+    try:
+        d = urlopen(r).read()
+        with open(path,"wb") as f:
+            f.write(d)
+    except HTTPError :
+        download_video(path,url)
     
 if __name__=="__main__":
     print(sys.argv)
