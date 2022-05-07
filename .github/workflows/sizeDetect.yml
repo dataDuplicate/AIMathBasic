@@ -27,5 +27,4 @@ jobs:
       - name: detect
         run: |
           du -ah ./main
-          du -sh ./main
       
