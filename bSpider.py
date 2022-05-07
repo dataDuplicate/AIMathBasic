@@ -58,9 +58,15 @@ def download_video(path,url,depth=0):
         d = urlopen(r).read()
         with open(path,"wb") as f:
             f.write(d)
+<<<<<<< HEAD
     except Exception :
         download_video(path,url,depth+1)
         
+=======
+    except HTTPError :
+        download_video(path,url)
+    
+>>>>>>> 8796d5ec34ea1bb2a98f44138ff3fa3b651da912
 if __name__=="__main__":
     print(sys.argv)
     #t1,a=getHighVideoURL("BV1Nr4y1n751")
