@@ -85,7 +85,7 @@ if __name__=="__main__":
     else:
         if not os.path.exists("./"+name):
             os.makedirs("./"+name)
-        for n,url in aa(t,o,a):
+        for n,url in aa(t,o,list(a)):
             print(n)
             download_video(f"./{name}/{n}.mp4",url)
         
