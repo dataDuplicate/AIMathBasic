@@ -3,6 +3,7 @@ from urllib.error import *
 import re,json
 import time
 import os,sys
+import http.client
 
 header = {
     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1',
@@ -66,9 +67,16 @@ def download_video(path,url,depth=0):
 
 if __name__=="__main__":
     print(sys.argv)
-    #t1,a=getHighVideoURL("BV1Nr4y1n751")
+    #t1,a=getHighVideoURL("")
+    t=int(sys.argv[1])
+    o=int(sys.argv[2])
+    
     name,a=getHighVideoURL("BV1Nr4y1n751")
     
+    def aa(t,o,lis):
+        l = len(lis)
+        s = (l//t) + (0 if l%t==0 else 1)
+        return lis[s*(o-1):(None if s*o>len(lis)-1 else s*o)]
     #name,a=(getVideoURL("BV1Nr4y1n751"))
     #name,a=(getVideoURL("BV1ii4y1m7KV"))
     name="main"
@@ -77,7 +85,7 @@ if __name__=="__main__":
     else:
         if not os.path.exists("./"+name):
             os.makedirs("./"+name)
-        for n,url in a:
+        for n,url in aa(t,o,a):
             print(n)
             download_video(f"./{name}/{n}.mp4",url)
         
